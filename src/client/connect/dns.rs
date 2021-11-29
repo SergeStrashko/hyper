@@ -33,6 +33,8 @@ use tokio::task::JoinHandle;
 use tower_service::Service;
 use tracing::debug;
 
+use rand::seq::IteratorRandom;
+
 pub(super) use self::sealed::Resolve;
 
 /// A domain name to resolve into IP addresses.
@@ -185,8 +187,10 @@ pub(super) struct SocketAddrs {
 
 impl SocketAddrs {
     pub(super) fn new(addrs: Vec<SocketAddr>) -> Self {
+        let mut v = addrs.clone();
+        v.shuffle(&mut thread_rng());
         SocketAddrs {
-            iter: addrs.into_iter(),
+            iter: v.into_iter(),
         }
     }
 
