@@ -32,8 +32,9 @@ use std::{fmt, io, vec};
 use tokio::task::JoinHandle;
 use tower_service::Service;
 use tracing::debug;
-
-use rand::seq::IteratorRandom;
+extern  crate rand;
+use rand::thread_rng;
+use rand::seq::SliceRandom;
 
 pub(super) use self::sealed::Resolve;
 
